@@ -1,0 +1,249 @@
+name: rust-release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+env:
+  # Project-specific configuration - customize these for your project
+  PROJECT_NAME: simple-menu
+  PROJECT_DISPLAY_NAME: Simple-Menu
+  RUST_TOOLCHAIN: 1.88.0
+  # GitHub repository for changelog link (format: owner/repo)
+  CHANGELOG_REPO: SimpleMotion-Digital/100003-SD-34-Simple-Menu
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Binaries
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        target: [
+          "x86_64-unknown-linux-gnu",
+          "x86_64-apple-darwin",
+          "aarch64-apple-darwin",
+          "x86_64-pc-windows-msvc"
+        ]
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            platform: linux-x86_64
+            extension: ""
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            platform: macos-x86_64
+            extension: ""
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            platform: macos-arm64
+            extension: ""
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            platform: windows-x86_64
+            extension: ".exe"
+        exclude:
+          - os: ubuntu-latest
+            target: x86_64-apple-darwin
+          - os: ubuntu-latest
+            target: aarch64-apple-darwin
+          - os: ubuntu-latest
+            target: x86_64-pc-windows-msvc
+          - os: macos-latest
+            target: x86_64-unknown-linux-gnu
+          - os: macos-latest
+            target: x86_64-pc-windows-msvc
+          - os: windows-latest
+            target: x86_64-unknown-linux-gnu
+          - os: windows-latest
+            target: x86_64-apple-darwin
+          - os: windows-latest
+            target: aarch64-apple-darwin
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.RUST_TOOLCHAIN }}
+          components: rustfmt
+          targets: ${{ matrix.target }}
+
+      - name: Update Rust to latest version
+        run: rustup update
+
+      - name: Cache Cargo dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ matrix.target }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-${{ matrix.target }}-
+            ${{ runner.os }}-cargo-
+
+      - name: Build binary (Unix)
+        if: matrix.extension == ''
+        run: |
+          cargo build --release --target ${{ matrix.target }}
+          version=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml)
+          version_suffix="-v${version//./-}"
+          # Remove existing versioned binary if it exists
+          rm -f "target/${{ matrix.target }}/release/${{ env.PROJECT_NAME }}$version_suffix"
+          mv target/${{ matrix.target }}/release/${{ env.PROJECT_NAME }} "target/${{ matrix.target }}/release/${{ env.PROJECT_NAME }}$version_suffix"
+
+      - name: Build binary (Windows)
+        if: matrix.extension == '.exe'
+        run: |
+          cargo build --release --target ${{ matrix.target }}
+          $version = (Select-String -Path "Cargo.toml" -Pattern '^version = "(.*)"').Matches[0].Groups[1].Value
+          $version_suffix = "-v$($version -replace '\.','-')"
+          # Remove existing versioned binary if it exists
+          $target_file = "target\${{ matrix.target }}\release\${{ env.PROJECT_NAME }}$version_suffix.exe"
+          if (Test-Path $target_file) {
+            Remove-Item $target_file -Force
+          }
+          Move-Item "target\${{ matrix.target }}\release\${{ env.PROJECT_NAME }}.exe" $target_file
+        shell: pwsh
+
+      - name: Prepare binary (Unix)
+        if: matrix.extension == ''
+        run: |
+          mkdir -p artifacts
+          version=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml)
+          version_suffix="-v${version//./-}"
+          artifact_name="${{ env.PROJECT_NAME }}-${{ matrix.platform }}"
+          artifact_file="artifacts/${artifact_name}$version_suffix"
+          # Remove existing artifact if it exists
+          rm -f "$artifact_file"
+          cp target/${{ matrix.target }}/release/${{ env.PROJECT_NAME }}$version_suffix "$artifact_file"
+          chmod +x "$artifact_file"
+
+      - name: Prepare binary (Windows)
+        if: matrix.extension == '.exe'
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts
+          $version = (Select-String -Path "Cargo.toml" -Pattern '^version = "(.*)"').Matches[0].Groups[1].Value
+          $version_suffix = "-v$($version -replace '\.','-')"
+          $artifact_name = "${{ env.PROJECT_NAME }}-${{ matrix.platform }}"
+          $artifact_file = "artifacts\${artifact_name}$version_suffix.exe"
+          # Remove existing artifact if it exists
+          if (Test-Path $artifact_file) {
+            Remove-Item $artifact_file -Force
+          }
+          Copy-Item "target\${{ matrix.target }}\release\${{ env.PROJECT_NAME }}$version_suffix.exe" $artifact_file
+        shell: pwsh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PROJECT_NAME }}-${{ matrix.platform }}
+          path: artifacts/*
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Debug artifact structure
+        run: |
+          echo "=== Current directory structure ==="
+          ls -la .
+          echo "=== Artifacts directory structure ==="
+          if [ -d "artifacts" ]; then
+            find artifacts -type f -exec ls -la {} \;
+          else
+            echo "No artifacts directory found"
+          fi
+
+      - name: Prepare release files
+        run: |
+          # Clean and recreate release-files directory
+          rm -rf release-files
+          mkdir -p release-files
+          if [ -d "artifacts" ]; then
+            find artifacts -name "${{ env.PROJECT_NAME }}*" -type f -exec cp {} release-files/ \;
+          else
+            echo "Warning: artifacts directory not found"
+            ls -la .
+          fi
+          echo "=== Final release files ==="
+          ls -la release-files/
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+          echo "# ${{ env.PROJECT_DISPLAY_NAME }} $VERSION" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "## 🚀 What's New" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "This release includes cross-platform binaries for Linux, macOS, and Windows." >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "## 📦 Downloads" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "- **Linux (x86_64)**: \`${{ env.PROJECT_NAME }}-linux-x86_64\`" >> $GITHUB_OUTPUT
+          echo "- **macOS (Intel)**: \`${{ env.PROJECT_NAME }}-macos-x86_64\`" >> $GITHUB_OUTPUT
+          echo "- **macOS (Apple Silicon)**: \`${{ env.PROJECT_NAME }}-macos-arm64\`" >> $GITHUB_OUTPUT
+          echo "- **Windows (x86_64)**: \`${{ env.PROJECT_NAME }}-windows-x86_64.exe\`" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "## 🔧 Installation" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "1. Download the appropriate binary for your platform" >> $GITHUB_OUTPUT
+          echo "2. Make it executable (Unix/Linux/macOS): \`chmod +x ${{ env.PROJECT_NAME }}-*\`" >> $GITHUB_OUTPUT
+          echo "3. Move to a directory in your PATH (optional)" >> $GITHUB_OUTPUT
+          echo "4. Run: \`./${{ env.PROJECT_NAME }}-*\` or \`${{ env.PROJECT_NAME }}-windows-x86_64.exe\`" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "## 🛠️ Built with" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "- Rust Edition $(rustc --version | cut -d' ' -f4 | cut -d'(' -f1 | cut -d'-' -f1) with toolchain ${{ env.RUST_TOOLCHAIN }}" >> $GITHUB_OUTPUT
+          echo "- Cross-platform compatibility" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "For the full changelog, see [CHANGELOG.md](https://github.com/${{ env.CHANGELOG_REPO }}/blob/main/CHANGELOG.md)." >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Delete existing release if it exists
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          # Check if release exists and delete it
+          if gh release view "$VERSION" &>/dev/null; then
+            echo "Release $VERSION already exists, deleting it..."
+            gh release delete "$VERSION" --yes || true
+          else
+            echo "Release $VERSION does not exist, proceeding with creation..."
+          fi
+        continue-on-error: true
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.version.outputs.VERSION }}" \
+            --title "${{ env.PROJECT_DISPLAY_NAME }} ${{ steps.version.outputs.VERSION }}" \
+            --notes "${{ steps.release_notes.outputs.RELEASE_NOTES }}" \
+            --latest \
+            release-files/*

@@ -1,0 +1,13 @@
+[package]
+name = "simple-menu"
+version = "0.1.0"
+edition = "2024"
+description = "A simple interactive CLI tool emphasizing simplicity"
+license = "MIT OR Apache-2.0"
+
+[[bin]]
+name = "simple-menu"
+path = "src/main.rs"
+
+[dependencies]
+# Following project guidelines: standard library only
