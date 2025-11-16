@@ -25,7 +25,7 @@ impl ShowCommand {
     ///
     /// # Examples
     /// ```
-    /// use simple_menu::commands::show::ShowCommand;
+    /// use sm_menu::commands::show::ShowCommand;
     /// let show_cmd = ShowCommand::new("edit");
     /// ```
     pub fn new(context: &str) -> Self {

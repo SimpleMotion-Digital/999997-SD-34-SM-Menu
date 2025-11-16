@@ -26,7 +26,7 @@ impl QuitCommand {
     ///
     /// # Examples
     /// ```
-    /// use simple_menu::commands::quit::QuitCommand;
+    /// use sm_menu::commands::quit::QuitCommand;
     /// let quit_cmd = QuitCommand::new();
     /// ```
     pub fn new() -> Self {

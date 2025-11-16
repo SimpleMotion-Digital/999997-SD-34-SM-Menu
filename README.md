@@ -1,10 +1,10 @@
-# simple-menu
+# 999997-SD-34-SM-Menu
 
 A simple interactive CLI tool for menu management using only Rust's standard library.
 
 ## Overview
 
-`simple-menu` is a Rust CLI application that provides an interactive menu system for various operations. The project emphasizes simplicity and uses only the Rust standard library without external dependencies.
+`999997-SD-34-SM-Menu` (binary: `sm-menu`) is a Rust CLI application that provides an interactive menu system for various operations. The project emphasizes simplicity and uses only the Rust standard library without external dependencies.
 
 ## Installation
 
@@ -12,8 +12,8 @@ A simple interactive CLI tool for menu management using only Rust's standard lib
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/simple-menu.git
-cd simple-menu
+git clone https://github.com/SimpleMotion-Digital/999997-SD-34-SM-Menu.git
+cd 999997-SD-34-SM-Menu
 
 # Build the project
 cargo build --release
@@ -26,7 +26,7 @@ cargo install --path .
 
 ```bash
 # Run the interactive menu
-simple-menu
+sm-menu
 ```
 
 The application provides an interactive command-line interface with various menu options and commands.

@@ -61,8 +61,8 @@ git push origin v0.1.0
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `PROJECT_NAME` | Binary name (must match Cargo.toml) | `simple-menu` |
-| `PROJECT_DISPLAY_NAME` | Human-readable project name | `Simple-Menu` |
+| `PROJECT_NAME` | Binary name (must match Cargo.toml) | `sm-menu` |
+| `PROJECT_DISPLAY_NAME` | Human-readable project name | `SM-Menu` |
 | `RUST_TOOLCHAIN` | Rust toolchain version | `1.88.0` |
 | `CHANGELOG_REPO` | GitHub repo for changelog link | `owner/repo-name` |
 
@@ -106,9 +106,9 @@ The workflow creates binaries with the following naming pattern:
 - **Release artifacts**: `{PROJECT_NAME}-{platform}-{arch}.exe` (Windows only)
 
 Examples:
-- `simple-menu-linux-x86_64-v0-1-0`
-- `simple-menu-macos-arm64-v0-1-0`  
-- `simple-menu-windows-x86_64-v0-1-0.exe`
+- `sm-menu-linux-x86_64-v0-1-0`
+- `sm-menu-macos-arm64-v0-1-0`
+- `sm-menu-windows-x86_64-v0-1-0.exe`
 
 ## Release Notes
 
@@ -219,7 +219,7 @@ To improve this workflow template:
 
 See the following projects using this workflow:
 
-- [Simple-Menu](https://github.com/SimpleMotion-Digital/100003-SD-34-Simple-Menu)
+- [SM-Menu](https://github.com/SimpleMotion-Digital/999997-SD-34-SM-Menu)
 - (Add your project here)
 
 ## Support

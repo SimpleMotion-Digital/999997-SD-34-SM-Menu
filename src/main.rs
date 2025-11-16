@@ -1,5 +1,5 @@
-use simple_menu::ui::DisplayManager;
-use simple_menu::{CliContext, CliError, CliResult, Command, CommandResult};
+use sm_menu::ui::DisplayManager;
+use sm_menu::{CliContext, CliError, CliResult, Command, CommandResult};
 use std::io::{self, BufRead, Write};
 use std::panic;
 use std::process;
@@ -29,7 +29,7 @@ fn main() -> CliResult<()> {
         eprintln!("Warning: {e}");
     }
 
-    println!("\n\tWelcome to simple-menu!\n");
+    println!("\n\tWelcome to sm-menu!\n");
 
     let mut context = CliContext::new();
     let mut command_stack: Vec<Box<dyn Command>> = vec![Box::new(RootCommand)];
@@ -139,7 +139,7 @@ fn display_error(error: &CliError, command_stack: &[Box<dyn Command>]) {
 
 /// Perform graceful shutdown
 fn graceful_shutdown() {
-    println!("\nThank you for using simple-menu!");
+    println!("\nThank you for using sm-menu!");
     // Ensure stdout is flushed before exit
     let _ = io::stdout().flush();
 }

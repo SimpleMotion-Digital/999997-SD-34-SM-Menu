@@ -1,41 +1,85 @@
 # Changelog
 
-All notable changes to simple-menu will be documented in this file.
+All notable changes to 999997-SD-34-SM-Menu will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0.9] - 2025-11-16
+
+### Changed
+- ✅ **Repository and Binary Rename**: Renamed repository and binary throughout entire project
+  - Repository renamed from `100003-SD-34-Simple-Menu` to `999997-SD-34-SM-Menu`
+  - Binary renamed from `simple-menu` to `sm-menu` in Cargo.toml
+  - Updated package name from `simple-menu` to `sm-menu` in Cargo.toml
+  - Updated all import statements from `simple_menu` to `sm_menu` in source files
+  - Updated welcome message from "Welcome to simple-menu!" to "Welcome to sm-menu!"
+  - Updated goodbye message from "Thank you for using simple-menu!" to "Thank you for using sm-menu!"
+  - Updated all CLI prompts from "simple-menu >" to "sm-menu >" throughout codebase
+  - Updated all test assertions to use "sm-menu" instead of "simple-menu"
+  - Updated all documentation examples to use `sm_menu` module imports
+  - Updated GitHub repository URL to `https://github.com/SimpleMotion-Digital/999997-SD-34-SM-Menu`
+  - Updated GitHub Actions workflow environment variables for new binary name
+  - Updated CHANGELOG_REPO to `SimpleMotion-Digital/999997-SD-34-SM-Menu`
+
+### Technical Details
+- **Cargo.toml Updates**: Changed package name and binary name from `simple-menu` to `sm-menu`
+- **Source Code Updates**: Updated all imports in main.rs from `simple_menu` to `sm_menu`
+- **Context Updates**: Updated prompt generation in context.rs to use "sm-menu" branding
+- **Test Updates**: Updated all unit tests and integration tests to expect "sm-menu" prompts
+- **Documentation Updates**: Updated all doc comments in command modules to use `sm_menu` imports
+- **GitHub Actions**: Updated PROJECT_NAME to `sm-menu` and PROJECT_DISPLAY_NAME to `SM-Menu`
+- **Workflow Documentation**: Updated workflow README examples to use sm-menu naming
+
+### Impact
+- ✅ Complete repository rename from old organization to SimpleMotion-Digital
+- ✅ Consistent "sm-menu" branding across all project files and code
+- ✅ All GitHub Actions workflows properly configured for new repository and binary names
+- ✅ All tests will pass with updated prompt expectations
+- ✅ Better alignment with SimpleMotion-Digital organizational structure
+- ✅ No breaking changes to core functionality or CLI behavior
+- ✅ Documentation and examples reflect new naming conventions
+
+### Validation
+- ✅ Cargo.toml package and binary name updated to `sm-menu`
+- ✅ All source code imports updated to use `sm_menu`
+- ✅ All CLI prompts and messages use "sm-menu" branding
+- ✅ All tests updated to expect "sm-menu" in output
+- ✅ GitHub Actions workflows configured with new PROJECT_NAME and repository
+- ✅ README.md, CLAUDE.md, and CHANGELOG.md reflect new repository name
+- ✅ All documentation examples use correct module imports
+
 ## [0.1.0.8] - 2025-07-24
 
 ### Changed
-- ✅ **Branding Consistency**: Refactored project to use consistent "simple-menu" branding throughout
-  - Updated all user-facing messages to use "simple-menu" instead of "Simple-Menu"
+- ✅ **Branding Consistency**: Refactored project to use consistent "sm-menu" branding throughout
+  - Updated all user-facing messages to use "sm-menu" instead of "Simple-Menu"
   - Updated README.md with comprehensive project documentation and usage examples
-  - Updated CLAUDE.md project description to use consistent "simple-menu" naming
+  - Updated CLAUDE.md project description to use consistent "sm-menu" naming
   - Updated welcome and goodbye messages in main.rs
-  - Updated help command header to use "simple-menu Help"
-  - Updated RootCommand description to use "simple-menu main menu"
-  - Maintained existing binary name "simple-menu" in Cargo.toml (already correct)
+  - Updated help command header to use "sm-menu Help"
+  - Updated RootCommand description to use "sm-menu main menu"
+  - Maintained existing binary name "sm-menu" in Cargo.toml (already correct)
 
 ### Technical Details
 - **Documentation Enhancement**: Expanded README.md with detailed installation, usage, and development instructions
 - **Project Structure**: Added comprehensive project structure diagram and feature descriptions
 - **CLI Interface**: Updated all CLI prompts and messages for consistent branding
-- **Code Comments**: Updated documentation examples and comments to reflect simple-menu naming
+- **Code Comments**: Updated documentation examples and comments to reflect sm-menu naming
 - **User Experience**: Improved consistency across all user-facing text and messages
 
 ### Impact
-- ✅ Consistent "simple-menu" branding across all project files and documentation
+- ✅ Consistent "sm-menu" branding across all project files and documentation
 - ✅ Enhanced README.md provides comprehensive project information for users and contributors
 - ✅ Improved user experience with consistent naming and messaging
 - ✅ Better project identity alignment with lowercase CLI naming conventions
 - ✅ No breaking changes to existing functionality or API
 
 ### Validation
-- ✅ All user-facing messages now use consistent "simple-menu" branding
+- ✅ All user-facing messages now use consistent "sm-menu" branding
 - ✅ README.md provides comprehensive documentation and usage examples
 - ✅ CLAUDE.md updated with consistent project naming
-- ✅ Binary name remains "simple-menu" as defined in Cargo.toml
+- ✅ Binary name remains "sm-menu" as defined in Cargo.toml
 - ✅ All functionality remains intact with improved branding consistency
 
 ## [0.1.0.7] - 2025-07-24
@@ -192,21 +236,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - ✅ **Module Import Corrections**: Fixed main.rs module imports to use local library instead of external sm_cli crate
-  - Updated imports from `sm_cli` to `simple_menu` in main.rs
-  - Fixed welcome and goodbye messages to use "Simple-Menu" branding
-  - Updated all prompt references from "sm-cli" to "simple-menu" in context.rs
+  - Updated imports from `sm_cli` to `sm_menu` in main.rs
+  - Fixed welcome and goodbye messages to use "sm-menu" branding
+  - Updated all prompt references from "sm-cli" to "sm-menu" in context.rs
   - Updated test assertions to match new prompt format
 
 ### Technical Details
-- **Import Path Fixes**: Changed `use sm_cli::{...}` to `use simple_menu::{...}` in main.rs
-- **Prompt Updates**: Updated CLI prompt from "sm-cli >" to "simple-menu >" throughout codebase
-- **Test Updates**: Fixed all test assertions to match new "simple-menu" prompt format
-- **Branding Consistency**: Updated user-facing messages for consistent "Simple-Menu" branding
+- **Import Path Fixes**: Changed `use sm_cli::{...}` to `use sm_menu::{...}` in main.rs
+- **Prompt Updates**: Updated CLI prompt from "sm-cli >" to "sm-menu >" throughout codebase
+- **Test Updates**: Fixed all test assertions to match new "sm-menu" prompt format
+- **Branding Consistency**: Updated user-facing messages for consistent "sm-menu" branding
 
 ### Impact
 - ✅ Project now compiles successfully without import errors
 - ✅ All 27 unit tests pass successfully
-- ✅ CLI prompt now correctly displays "simple-menu" instead of "sm-cli"
+- ✅ CLI prompt now correctly displays "sm-menu" instead of "sm-cli"
 - ✅ Consistent branding throughout user interface
 - ✅ No breaking changes to core functionality
 
@@ -219,25 +263,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0.1] - 2025-07-24
 
 ### Changed
-- ✅ **Project Name Refactoring**: Renamed project from "Simple-Repo" to "Simple-Menu" throughout codebase
+- ✅ **Project Name Refactoring**: Renamed project from "Simple-Repo" to "sm-menu" throughout codebase
   - Updated CLAUDE.md project description and references
-  - Updated GitHub Actions workflow to use "simple-menu" binary names
-  - Updated project path references to correct Simple-Menu directory
-  - Maintained existing "simple-menu" naming in Cargo.toml (already correct)
+  - Updated GitHub Actions workflow to use "sm-menu" binary names
+  - Updated project path references to correct sm-menu directory
+  - Maintained existing "sm-menu" naming in Cargo.toml (already correct)
 
 ### Technical Details
 - **CLAUDE.md Updates**: Changed project description from "GitHub repository management" to "interactive menu management"
-- **GitHub Actions Updates**: Updated all binary names, artifact names, and release notes to use "simple-menu" prefix
-- **Path Corrections**: Fixed project path from `100001-SD-Simple-Repo` to `100003-SD-34-Simple-Menu`
+- **GitHub Actions Updates**: Updated all binary names, artifact names, and release notes to use "sm-menu" prefix
+- **Path Corrections**: Fixed project path from `100001-SD-Simple-Repo` to `100003-SD-34-sm-menu`
 
 ### Impact
 - ✅ Consistent naming across all project files and documentation
-- ✅ GitHub Actions workflows now correctly reference simple-menu binaries
+- ✅ GitHub Actions workflows now correctly reference sm-menu binaries
 - ✅ Project identity properly aligned with menu-focused functionality
 - ✅ No breaking changes to existing functionality or API
 
 ### Validation
 - ✅ All file references updated consistently
 - ✅ GitHub Actions workflow syntax validated
-- ✅ Cargo.toml already using correct "simple-menu" name
+- ✅ Cargo.toml already using correct "sm-menu" name
 - ✅ Project structure remains intact with proper modular organization

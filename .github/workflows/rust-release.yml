@@ -7,11 +7,11 @@ on:
 
 env:
   # Project-specific configuration - customize these for your project
-  PROJECT_NAME: simple-menu
-  PROJECT_DISPLAY_NAME: Simple-Menu
+  PROJECT_NAME: sm-menu
+  PROJECT_DISPLAY_NAME: SM-Menu
   RUST_TOOLCHAIN: 1.88.0
   # GitHub repository for changelog link (format: owner/repo)
-  CHANGELOG_REPO: SimpleMotion-Digital/100003-SD-34-Simple-Menu
+  CHANGELOG_REPO: SimpleMotion-Digital/999997-SD-34-SM-Menu
 
 permissions:
   contents: write

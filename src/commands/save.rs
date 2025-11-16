@@ -27,7 +27,7 @@ impl SaveCommand {
     ///
     /// # Examples
     /// ```
-    /// use simple_menu::commands::save::SaveCommand;
+    /// use sm_menu::commands::save::SaveCommand;
     /// let save_cmd = SaveCommand::new();
     /// ```
     pub fn new() -> Self {

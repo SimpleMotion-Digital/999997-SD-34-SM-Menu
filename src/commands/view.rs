@@ -28,7 +28,7 @@ impl ViewCommand {
     ///
     /// # Examples
     /// ```
-    /// use simple_menu::commands::view::ViewCommand;
+    /// use sm_menu::commands::view::ViewCommand;
     /// let view_cmd = ViewCommand::new();
     /// ```
     pub fn new() -> Self {

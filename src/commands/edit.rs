@@ -28,7 +28,7 @@ impl EditCommand {
     ///
     /// # Examples
     /// ```
-    /// use simple_menu::commands::edit::EditCommand;
+    /// use sm_menu::commands::edit::EditCommand;
     /// let edit_cmd = EditCommand::new();
     /// ```
     pub fn new() -> Self {

@@ -25,7 +25,7 @@ impl AxisCommand {
     ///
     /// # Examples
     /// ```
-    /// use simple_menu::commands::axis::AxisCommand;
+    /// use sm_menu::commands::axis::AxisCommand;
     /// let axis_cmd = AxisCommand::new("edit");
     /// ```
     pub fn new(context: &str) -> Self {

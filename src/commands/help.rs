@@ -56,7 +56,7 @@ impl HelpCommand {
     ///
     /// # Examples
     /// ```
-    /// use simple_menu::commands::help::HelpCommand;
+    /// use sm_menu::commands::help::HelpCommand;
     /// let help_cmd = HelpCommand::new();
     /// ```
     pub fn new() -> Self {

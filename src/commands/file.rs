@@ -32,7 +32,7 @@ impl FileCommand {
     ///
     /// # Examples
     /// ```
-    /// use simple_menu::commands::file::FileCommand;
+    /// use sm_menu::commands::file::FileCommand;
     /// let file_cmd = FileCommand::new();
     /// ```
     pub fn new() -> Self {
@@ -48,7 +48,7 @@ impl FileCommand {
     ///
     /// # Examples
     /// ```
-    /// use simple_menu::commands::file::FileCommand;
+    /// use sm_menu::commands::file::FileCommand;
     /// let recursive_file_cmd = FileCommand::new_with_parent("file");
     /// ```
     pub fn new_with_parent(parent: &str) -> Self {

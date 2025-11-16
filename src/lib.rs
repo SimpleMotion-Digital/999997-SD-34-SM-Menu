@@ -31,12 +31,12 @@ mod tests {
         // Test pushing context
         context.push_context("file".to_string());
         assert_eq!(context.current_path(), vec!["file"]);
-        assert_eq!(context.get_prompt(), "simple-menu ~ file > ");
+        assert_eq!(context.get_prompt(), "sm-menu ~ file > ");
 
         // Test popping context
         context.pop_context();
         assert!(context.current_path().is_empty());
-        assert_eq!(context.get_prompt(), "simple-menu > ");
+        assert_eq!(context.get_prompt(), "sm-menu > ");
     }
 
     #[test]

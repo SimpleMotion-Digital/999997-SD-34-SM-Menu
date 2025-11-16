@@ -1,7 +1,7 @@
 # CLAUDE.md - Project Context
 
 ## Project Overview
-simple-menu is a Rust CLI application for interactive menu management, targeting release in 2024. The project follows a strict constraint of using only the Rust standard library (`std`) without external dependencies.
+999997-SD-34-SM-Menu is a Rust CLI application for interactive menu management, targeting release in 2024. The project follows a strict constraint of using only the Rust standard library (`std`) without external dependencies.
 
 ## Technology Stack
 - **Language**: Rust (2024 edition)
@@ -22,8 +22,9 @@ simple-menu is a Rust CLI application for interactive menu management, targeting
 ## Development Environment
 - **OS**: macOS
 - **Shell**: zsh 5.9
-- **Project Path**: `/Users/greg.gowans/Source/SD-Source/100003-SD-34-Simple-Menu`
-- **Binary Name**: `simple-menu`
+- **Project Path**: `/Users/greg-gowans/Source/SD-Source/999997-SD-34-SM-Menu`
+- **Repository**: `https://github.com/SimpleMotion-Digital/999997-SD-34-SM-Menu`
+- **Binary Name**: `sm-menu`
 
 ## Rust Edition and Features
 - Use Rust 2024 edition (latest stable)

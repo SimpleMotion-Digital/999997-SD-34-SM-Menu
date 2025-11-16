@@ -79,10 +79,10 @@ impl CliContext {
         };
 
         if self.current_path.is_empty() {
-            format!("{green_color}simple-menu{reset_color} > ")
+            format!("{green_color}sm-menu{reset_color} > ")
         } else {
             format!(
-                "{}simple-menu{} ~ {} > ",
+                "{}sm-menu{} ~ {} > ",
                 green_color,
                 reset_color,
                 self.current_path.join(" > ")
@@ -294,14 +294,14 @@ mod tests {
         context.preferences.colored_prompt = false;
 
         // Root prompt
-        assert_eq!(context.get_prompt(), "simple-menu > ");
+        assert_eq!(context.get_prompt(), "sm-menu > ");
 
         // Nested prompt
         context.push_context("file".to_string());
-        assert_eq!(context.get_prompt(), "simple-menu ~ file > ");
+        assert_eq!(context.get_prompt(), "sm-menu ~ file > ");
 
         context.push_context("load".to_string());
-        assert_eq!(context.get_prompt(), "simple-menu ~ file > load > ");
+        assert_eq!(context.get_prompt(), "sm-menu ~ file > load > ");
     }
 
     #[test]
@@ -312,14 +312,14 @@ mod tests {
         // Root prompt with Warp-style green color
         assert_eq!(
             context.get_prompt(),
-            "\x1b[38;2;0;215;135msimple-menu\x1b[0m > "
+            "\x1b[38;2;0;215;135msm-menu\x1b[0m > "
         );
 
         // Nested prompt with Warp-style green color
         context.push_context("file".to_string());
         assert_eq!(
             context.get_prompt(),
-            "\x1b[38;2;0;215;135msimple-menu\x1b[0m ~ file > "
+            "\x1b[38;2;0;215;135msm-menu\x1b[0m ~ file > "
         );
     }
 

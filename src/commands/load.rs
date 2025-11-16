@@ -27,7 +27,7 @@ impl LoadCommand {
     ///
     /// # Examples
     /// ```
-    /// use simple_menu::commands::load::LoadCommand;
+    /// use sm_menu::commands::load::LoadCommand;
     /// let load_cmd = LoadCommand::new();
     /// ```
     pub fn new() -> Self {

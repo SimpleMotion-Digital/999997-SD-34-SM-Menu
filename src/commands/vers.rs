@@ -26,7 +26,7 @@ impl VersCommand {
     ///
     /// # Examples
     /// ```
-    /// use simple_menu::commands::vers::VersCommand;
+    /// use sm_menu::commands::vers::VersCommand;
     /// let vers_cmd = VersCommand::new();
     /// ```
     pub fn new() -> Self {
