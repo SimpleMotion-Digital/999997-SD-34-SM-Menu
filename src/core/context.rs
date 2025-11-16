@@ -217,47 +217,6 @@ impl Default for CliPreferences {
     }
 }
 
-/// Navigation helper for managing context transitions
-#[derive(Debug)]
-pub struct NavigationHelper;
-
-impl NavigationHelper {
-    /// Validate that a context transition is valid
-    pub fn validate_transition(current_depth: usize, target_depth: usize) -> bool {
-        // Can always go up or stay at same level
-        if target_depth <= current_depth {
-            return true;
-        }
-
-        // Can only go down one level at a time
-        target_depth == current_depth + 1
-    }
-
-    /// Get the relative path between two contexts
-    pub fn get_relative_path(from: &[String], to: &[String]) -> Vec<String> {
-        let mut path = Vec::new();
-
-        // Find common prefix
-        let common_len = from
-            .iter()
-            .zip(to.iter())
-            .take_while(|(a, b)| a == b)
-            .count();
-
-        // Add "up" moves for levels to exit
-        for _ in common_len..from.len() {
-            path.push("..".to_string());
-        }
-
-        // Add "down" moves for levels to enter
-        for level in to.iter().skip(common_len) {
-            path.push(level.clone());
-        }
-
-        path
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -342,36 +301,5 @@ mod tests {
         context.add_to_history("".to_string());
         context.add_to_history("   ".to_string());
         assert_eq!(context.history().len(), 3);
-    }
-
-    #[test]
-    fn test_navigation_helper() {
-        // Valid transitions
-        assert!(NavigationHelper::validate_transition(0, 0));
-        assert!(NavigationHelper::validate_transition(1, 0));
-        assert!(NavigationHelper::validate_transition(1, 1));
-        assert!(NavigationHelper::validate_transition(0, 1));
-
-        // Invalid transitions (can't jump multiple levels)
-        assert!(!NavigationHelper::validate_transition(0, 2));
-        assert!(!NavigationHelper::validate_transition(1, 3));
-    }
-
-    #[test]
-    fn test_relative_path() {
-        let from = vec!["a".to_string(), "b".to_string(), "c".to_string()];
-        let to = vec!["a".to_string(), "d".to_string()];
-
-        let path = NavigationHelper::get_relative_path(&from, &to);
-        assert_eq!(
-            path,
-            vec!["..".to_string(), "..".to_string(), "d".to_string()]
-        );
-
-        let from = vec!["a".to_string()];
-        let to = vec!["a".to_string(), "b".to_string()];
-
-        let path = NavigationHelper::get_relative_path(&from, &to);
-        assert_eq!(path, vec!["b".to_string()]);
     }
 }

@@ -3,11 +3,11 @@
 //! This module contains tests that verify the error handling behavior
 //! of various commands in the CLI application.
 
-use crate::commands::file::FileCommand;
-use crate::commands::help::HelpCommand;
-use crate::commands::quit::QuitCommand;
-use crate::commands::vers::VersCommand;
-use crate::{CliError, Command, CommandResult};
+use sm_menu::commands::file::FileCommand;
+use sm_menu::commands::help::HelpCommand;
+use sm_menu::commands::quit::QuitCommand;
+use sm_menu::commands::vers::VersCommand;
+use sm_menu::{CliError, Command, CommandResult};
 
 #[test]
 fn test_vers_command_error_handling() {

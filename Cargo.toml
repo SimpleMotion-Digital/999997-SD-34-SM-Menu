@@ -11,3 +11,10 @@ path = "src/main.rs"
 
 [dependencies]
 # Following project guidelines: standard library only
+
+[profile.release]
+opt-level = 'z'     # Optimize for size
+lto = true          # Link-time optimization
+codegen-units = 1   # Better optimization
+strip = true        # Strip symbols
+panic = 'abort'     # Smaller binary

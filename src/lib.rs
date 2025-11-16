@@ -2,9 +2,6 @@ pub mod commands;
 pub mod core;
 pub mod ui;
 
-#[cfg(test)]
-mod integration_tests;
-
 // Re-export for tests
 pub use commands::*;
 pub use core::*;

@@ -8,6 +8,17 @@ use crate::core::error::ErrorSeverity;
 use crate::core::{CliError, Command};
 use std::io::{self, Write};
 
+// Color constants
+const COLOR_WARNING: &str = "\x1b[1;33m";  // Yellow
+const COLOR_ERROR: &str = "\x1b[1;31m";    // Red
+const COLOR_CRITICAL: &str = "\x1b[1;35m"; // Magenta
+const COLOR_CYAN: &str = "\x1b[1;36m";     // Cyan
+const COLOR_RESET: &str = "\x1b[0m";
+
+// Terminal size constants
+const DEFAULT_TERMINAL_WIDTH: usize = 80;
+const DEFAULT_TERMINAL_HEIGHT: usize = 24;
+
 /// Display manager for handling CLI output formatting
 pub struct DisplayManager {
     /// Whether to use colored output
@@ -44,15 +55,15 @@ impl DisplayManager {
 
         let color = if self.colored {
             match error.severity() {
-                ErrorSeverity::Warning => "\x1b[1;33m",  // Yellow
-                ErrorSeverity::Error => "\x1b[1;31m",    // Red
-                ErrorSeverity::Critical => "\x1b[1;35m", // Magenta
+                ErrorSeverity::Warning => COLOR_WARNING,
+                ErrorSeverity::Error => COLOR_ERROR,
+                ErrorSeverity::Critical => COLOR_CRITICAL,
             }
         } else {
             ""
         };
 
-        let reset = if self.colored { "\x1b[0m" } else { "" };
+        let reset = if self.colored { COLOR_RESET } else { "" };
 
         eprintln!("{color}{icon} {error}{reset}");
 
@@ -83,7 +94,7 @@ impl DisplayManager {
                     };
 
                     let formatted_name = if self.colored {
-                        format!("\x1b[1;36m{}\x1b[0m", self.format_command_name(cmd.name()))
+                        format!("{}{}{}", COLOR_CYAN, self.format_command_name(cmd.name()), COLOR_RESET)
                     } else {
                         self.format_command_name(cmd.name())
                     };
@@ -319,13 +330,13 @@ impl TerminalUtils {
     /// Get terminal width
     pub fn get_width() -> usize {
         // Default width if we can't determine it
-        80
+        DEFAULT_TERMINAL_WIDTH
     }
 
     /// Get terminal height
     pub fn get_height() -> usize {
         // Default height if we can't determine it
-        24
+        DEFAULT_TERMINAL_HEIGHT
     }
 
     /// Move cursor to position
@@ -448,7 +459,7 @@ mod tests {
 
     #[test]
     fn test_terminal_utils() {
-        assert_eq!(TerminalUtils::get_width(), 80);
-        assert_eq!(TerminalUtils::get_height(), 24);
+        assert_eq!(TerminalUtils::get_width(), DEFAULT_TERMINAL_WIDTH);
+        assert_eq!(TerminalUtils::get_height(), DEFAULT_TERMINAL_HEIGHT);
     }
 }

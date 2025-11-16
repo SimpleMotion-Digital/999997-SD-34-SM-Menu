@@ -7,6 +7,9 @@ use std::process;
 mod commands;
 use commands::RootCommand;
 
+/// Maximum navigation depth to prevent stack overflow
+const MAX_NAVIGATION_DEPTH: usize = 10;
+
 /// Clear the terminal screen using ANSI escape codes
 fn clear_terminal() -> CliResult<()> {
     // ANSI escape code to clear screen and move cursor to top-left
@@ -182,6 +185,12 @@ fn handle_input(
                         CommandResult::Continue => {
                             // If command has subcommands, enter that submenu
                             if cmd.has_subcommands() {
+                                // Check for maximum navigation depth
+                                if command_stack.len() >= MAX_NAVIGATION_DEPTH {
+                                    return Err(CliError::execution_error(
+                                        "Maximum navigation depth reached. Use 'exit' to go back.",
+                                    ));
+                                }
                                 context.push_context(cmd.name().to_string());
                                 command_stack.push(cmd);
                             }
